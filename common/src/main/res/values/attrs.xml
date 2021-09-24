@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SRecyclerView">
+        <attr name="pagedLoading" format="boolean"/>
+        <attr name="autoSlide" format="boolean"/>
+        <attr name="rvOrientation">
+            <!-- Defines an horizontal widget. -->
+            <enum name="horizontal" value="0" />
+            <!-- Defines a vertical widget. -->
+            <enum name="vertical" value="1" />
+            <enum name="grid" value="2" />
+        </attr>
+        <attr name="numGridCols" format="integer"/>
+    </declare-styleable>
+
+
+</resources>

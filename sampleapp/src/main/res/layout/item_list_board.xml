@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clBoard"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:paddingTop="7dp"
+    android:background="@color/white"
+    android:layout_marginLeft="@dimen/common_margin_item"
+    android:layout_marginRight="@dimen/common_margin_item">
+
+    <TextView
+        android:id="@+id/tvPostTitle"
+        style="@style/S18Black2LS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginRight="@dimen/common_margin_item"
+        app:layout_goneMarginRight="0dp"
+        app:layout_constraintBottom_toTopOf="@id/tvPostRegDate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ivThumb"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.5"
+        tools:text="평택에 파운드리 생산시설 구축 파운드리 생산시설 구축 파운드리 생산시설 구축" />
+
+    <TextView
+        android:id="@+id/tvPostRegDate"
+        style="@style/S10GrayThree2LS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="7dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="@id/tvPostTitle"
+        app:layout_constraintRight_toLeftOf="@id/vBorder"
+        app:layout_constraintTop_toBottomOf="@id/tvPostTitle"
+        tools:text="등록일 2020-06-26" />
+
+    <View
+        android:id="@+id/vBorder"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="4dp"
+        android:background="@color/gray02"
+        app:layout_constraintBottom_toBottomOf="@id/tvPostRegDate"
+        app:layout_constraintLeft_toRightOf="@id/tvPostRegDate"
+        app:layout_constraintRight_toLeftOf="@id/tvPostUser"
+        app:layout_constraintTop_toTopOf="@id/tvPostRegDate" />
+
+    <TextView
+        android:id="@+id/tvPostUser"
+        style="@style/S10GrayThree2LS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvPostRegDate"
+        app:layout_constraintLeft_toRightOf="@id/vBorder"
+        app:layout_constraintRight_toLeftOf="@id/ivNewBadge"
+        app:layout_constraintTop_toTopOf="@id/tvPostRegDate"
+        tools:text="작성자 xyz" />
+
+    <ImageView
+        android:id="@+id/ivNewBadge"
+        app:layout_constraintLeft_toRightOf="@id/tvPostUser"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvPostUser"
+        android:layout_marginLeft="4dp"
+        android:src="@drawable/ic_new_badge"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/tvPostUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/ivThumb"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/round_rect_white_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,360:200"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="visible"
+        tools:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/test_banner" />
+
+    <View
+        android:id="@+id/vBorderBot"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:background="@color/gray01"
+        android:layout_height="1dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

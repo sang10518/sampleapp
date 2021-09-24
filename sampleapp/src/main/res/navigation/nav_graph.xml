@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MainHomeFragment">
+
+    <action
+        android:id="@+id/action_home"
+        app:popUpTo="@id/MainHomeFragment"
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/activity_slide_from_left"
+        app:popExitAnim="@anim/activity_slide_to_left"
+        app:destination="@id/MainHomeFragment" />
+
+    <fragment
+        android:id="@+id/MainHomeFragment"
+        android:name="com.swc.sampleapp.ui.fragment.MainHomeFragment"
+        tools:layout="@layout/fragment_main_home">
+    </fragment>
+
+</navigation>

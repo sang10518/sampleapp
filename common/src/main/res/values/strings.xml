@@ -1,0 +1,23 @@
+<resources>
+    <string name="action_ok">Ok</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="msg_network_none">You are offline.\nPlease check your network and try again.</string>
+    <string name="msg_network_mobile">Connecting to cellular data. You may be charged based on your data plan.</string>
+    <string name="action_agree">Agree</string>
+    <string name="action_exit">Exit</string>
+    <string name="copyright_text" translatable="false">&#169; 2021 SWC</string>
+    <string name="msg_login_error">Please log in.</string>
+    <string name="msg_app_update">App update is available.</string>
+    <string name="msg_app_update_error">An error occurred during the update.</string>
+    <string name="msg_unknown_error">Unknown server error. Please contact customer service.</string>
+    <string name="msg_no_data">There is no data.</string>
+    <string name="inactive_exit_msg">You\'ve been inactive for too long. \nThe app will exit now.</string>
+
+    <string name="error_popup_title">Error</string>
+    <string name="error_popup_content">An unexpected error occurred.\nPlease try again.</string>
+    <string name="action_retry">Try again</string>
+
+	<string name="open_source_license_title">Open source license</string>
+	<string name="open_source_license_content" translatable="false">Blahblkjasdklj\nnblahbjzlkv</string>
+
+</resources>

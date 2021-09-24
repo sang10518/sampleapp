@@ -1,0 +1,99 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+
+android {
+    compileSdkVersion 29
+
+//    - 앱 이름 : 별도 규칙 없음
+//    - Package 코드 : 앱 이름에 맞게 진행
+//    - Version Code : 년도 2자리 + 월 2자리 + 일 2자리 + 일련번호 2자리(예:18123101, 18123102)
+    defaultConfig {
+        applicationId "com.swc.sampleapp"
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 20091401
+        versionName "1.1.3"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "sample${variant.name}_${getDate()}_${variant.versionName}.apk"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    /**
+     * App flavor를 common과 동일하게 하기 위해 별도의 값 설정 없이 flavor만 정의해준다.
+     */
+    flavorDimensions "server"
+    productFlavors {
+
+        Dev {
+            dimension "server"
+        }
+
+        QA {
+            dimension "server"
+        }
+
+        Prod {
+            dimension "server"
+        }
+    }
+
+    variantFilter { variant ->
+        def dim = variant.flavors.collectEntries {
+            [(it.productFlavor.dimension): it.productFlavor.name]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+configurations {
+    all {
+        exclude group: 'xpp3', module: 'xpp3'
+    }
+}
+
+dependencies {
+    implementation project(path: ':common')
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+}
+
+def getDate() {
+    return new Date().format('yyyyMMdd')
+}

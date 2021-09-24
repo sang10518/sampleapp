@@ -1,0 +1,3 @@
+include ':sampleapp'
+include ':common'
+rootProject.name = "sampleapp"
