@@ -1,27 +1,43 @@
 package com.swc.sampleapp
 
+import com.swc.common.BuildConfig
+import com.swc.common.model.BResponse
+import com.swc.sampleapp.model.SampleResp
+import io.reactivex.rxjava3.core.Flowable
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+
 
 /**
 Created by sangwn.choi on2020-07-13
 
  **/
-object UserApiClient {
-
-    //개발서버가 다운되었을때 목데이터를 대신 전달한다.
-    val isServerDown = false
-
-    //API serviceCode 정의
+interface UserApiClient {
 
 
-    //TEST API
+    @GET("ck")
+    fun getCk(): Flowable<BResponse<SampleResp>>
 
-    //    fun getTestApi1(context: Context, userId: String): Flowable<TestRes> {
-//        val requestData = TestReq(userId)
-////        val token = object: TypeToken<BResponse<TestRes>>(){}.type
-//
-//        return requestApi(context, "rest"", "test_api_endpoint", requestData, TestRes::class.java)
-//    }
+    companion object {
+        private var retrofit: Retrofit? = null
+        var BASE_URL = BuildConfig.SERVER_IP
+
+        fun getClient() : UserApiClient {
+            if (retrofit == null ) {
+                retrofit = Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_URL)
+                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                    .build()
+            }
+            return retrofit!!.create(UserApiClient::class.java)
+        }
+
+    }
 
 }
+
 
 

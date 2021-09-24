@@ -33,20 +33,23 @@ android {
 
     flavorDimensions "server"
     productFlavors {
-        def DEV_SERVER_ADDRESS = "\"1.1.1.1:1111\""
-        def QA_SERVER_ADDRESS = "\"1.1.1.1:1111\""
-        def PROD_SERVER_ADDRESS = "\"1.1.1.1:1111\""
+        def DEV_SERVER_ADDRESS = "\"http://1.1.1.1:1111\""
+        def QA_SERVER_ADDRESS = "\"http://1.1.1.1:1111\""
+        def PROD_SERVER_ADDRESS = "\"http://1.1.1.1:1111\""
 
         Dev {
             dimension "server"
+            buildConfigField("String", "SERVER_IP", DEV_SERVER_ADDRESS)
         }
 
         QA {
             dimension "server"
+            buildConfigField("String", "SERVER_IP", QA_SERVER_ADDRESS)
         }
 
         Prod {
             dimension "server"
+            buildConfigField("String", "SERVER_IP", PROD_SERVER_ADDRESS)
         }
 
     }
@@ -119,6 +122,9 @@ dependencies {
     api "androidx.work:work-runtime-ktx:$work_version"
     api 'androidx.webkit:webkit:1.2.0'
     api 'org.apache.httpcomponents:httpcore:4.4.4'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

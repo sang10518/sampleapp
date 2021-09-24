@@ -4,11 +4,12 @@ buildscript {
     ext.nav_version = "2.3.0"
     ext.work_version = "2.3.4"
     repositories {
+        jcenter {
+            url "https://jcenter.bintray.com/"
+        }
+        maven { url "https://www.jitpack.io" }
         google()
         mavenCentral()
-        jcenter()
-
-
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.0"
@@ -22,10 +23,12 @@ buildscript {
 
 allprojects {
     repositories {
+        jcenter {
+            url "https://jcenter.bintray.com/"
+        }
+        maven { url "https://www.jitpack.io" }
         google()
         mavenCentral()
-        jcenter()
-
     }
 }
 

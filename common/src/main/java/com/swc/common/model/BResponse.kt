@@ -15,7 +15,7 @@ data class BResponse<T> (
     @SerializedName("resultMessage", alternate = ["RESULT_MESSAGE"])//결과 메시지
     val resultMessage: String?,
 
-    @SerializedName("result", alternate = ["RESULT_DATA"])//결과 값.
+    @SerializedName("result", alternate = ["data"])//결과 값.
     // TODO json 응답에 데이터는 해당 필드로 말아달라고 요청 필요.
     val result: T?
 ): Vo()

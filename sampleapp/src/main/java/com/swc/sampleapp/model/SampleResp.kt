@@ -9,11 +9,11 @@ Created by sangwn.choi on2020-06-29
 
  **/
 data class SampleResp(
-    @SerializedName("sampleFieldOne")
-    val sampleFieldOne: Int,
+    @SerializedName("iv")
+    val iv: String?,
 
-    @SerializedName("sampleFieldTwo")
-    val sampleFieldTwo: Int
+    @SerializedName("key")
+    val key: String?
 ): Vo()
 
 data class SampleReq(
