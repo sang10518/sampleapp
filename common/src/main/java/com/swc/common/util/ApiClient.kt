@@ -27,6 +27,15 @@ object ApiClient {
     //checkFormat: code 정합성 확인할 경우 true로 설정.
     private var checkFormat: Boolean = false
 
+
+    var client: OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor {
+            LOG.e("Interceptor msg: $it")
+        }.apply{
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build()
+
     class UserSubscriber<T>(
         private var onSuccessAction: ((data: T) -> Unit)? = null,
         private var onErrorAction: ((error: Throwable?) -> Unit)? = null,
@@ -50,10 +59,6 @@ object ApiClient {
         override fun onComplete() {
             onCompleteAction?.invoke()
         }
-
-//        override fun onNext(t: T) {
-//            onSuccessAction?.invoke(t)
-//        }
 
         override fun onNext(t: BResponse<T>) {
             LOG.e("onNExt $t")

@@ -28,20 +28,12 @@ interface UserApiClient {
         private var retrofit: Retrofit? = null
         var BASE_URL = BuildConfig.SERVER_IP
 
-        private val client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor {
-                LOG.e("Interceptor msg: $it")
-            }.apply{
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .build()
-
         fun getClient() : UserApiClient {
             if (retrofit == null ) {
                 retrofit = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(BASE_URL)
-                    .client(client)
+                    .client(ApiClient.client)
                     .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                     .build()
             }
