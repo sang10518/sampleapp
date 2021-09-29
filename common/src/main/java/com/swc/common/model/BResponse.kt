@@ -9,10 +9,10 @@ Created by sangwn.choi on2020-07-09
 
  **/
 data class BResponse<T> (
-    @SerializedName("resultCode", alternate = ["RESULT_CODE"])//결과 코드
+    @SerializedName("resultCode", alternate = ["RESULT_CODE", "codeno"])//결과 코드
     val resultCode: Int,
 
-    @SerializedName("resultMessage", alternate = ["RESULT_MESSAGE"])//결과 메시지
+    @SerializedName("resultMessage", alternate = ["RESULT_MESSAGE", "msg"])//결과 메시지
     val resultMessage: String?,
 
     @SerializedName("result", alternate = ["data"])//결과 값.

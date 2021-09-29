@@ -1,6 +1,8 @@
 package com.swc.common.util
 
 import android.content.Context
+import com.google.gson.GsonBuilder
+import com.swc.common.BuildConfig
 import com.swc.common.model.BResponse
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
@@ -8,6 +10,13 @@ import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 import io.reactivex.rxjava3.subscribers.DisposableSubscriber
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -15,11 +24,14 @@ Created by sangwn.choi on2020-06-29
 
  **/
 object ApiClient {
+    //checkFormat: code 정합성 확인할 경우 true로 설정.
+    private var checkFormat: Boolean = false
+
     class UserSubscriber<T>(
         private var onSuccessAction: ((data: T) -> Unit)? = null,
         private var onErrorAction: ((error: Throwable?) -> Unit)? = null,
         private var onCompleteAction: (() -> Unit)? = null
-    ) : DisposableSubscriber<T>() {
+        ) : DisposableSubscriber<BResponse<T>>() {
 
         override fun onError(e: Throwable?) {
             onErrorAction?.invoke(e)
@@ -39,8 +51,28 @@ object ApiClient {
             onCompleteAction?.invoke()
         }
 
-        override fun onNext(t: T) {
-            onSuccessAction?.invoke(t)
+//        override fun onNext(t: T) {
+//            onSuccessAction?.invoke(t)
+//        }
+
+        override fun onNext(t: BResponse<T>) {
+            LOG.e("onNExt $t")
+            if (!checkFormat) {
+                onSuccessAction?.invoke(t.result!!)
+            } else {
+                when {
+                    t.resultCode != CODE_OK -> {
+                        onErrorAction?.invoke(ResponseFormatException("BResponse wrong resultCode", t.resultCode, t.resultMessage))
+                    }
+                    t.result == null -> {
+                        onErrorAction?.invoke(ResponseFormatException("BResponse result data is null", t.resultCode, t.resultMessage))
+                    }
+                    else -> {
+                        onSuccessAction?.invoke(t.result!!)
+                    }
+                }
+            }
+
         }
     }
 

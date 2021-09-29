@@ -55,10 +55,10 @@ class MainHomeFragment : BaseFragment() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(ApiClient.UserSubscriber({
-                LOG.e("getCk on success action")
+                LOG.e("getCk on success action $it")
                 hideLoading()
             }, {
-                LOG.e("getCk on err action")
+                LOG.e("getCk on err action: $it")
                 hideLoading()
             }, {
                 LOG.e("getCk on complete action")
