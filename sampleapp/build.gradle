@@ -7,6 +7,10 @@ apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 android {
     compileSdkVersion 29
 
+    buildFeatures {
+        viewBinding true
+    }
+
 //    - 앱 이름 : 별도 규칙 없음
 //    - Package 코드 : 앱 이름에 맞게 진행
 //    - Version Code : 년도 2자리 + 월 2자리 + 일 2자리 + 일련번호 2자리(예:18123101, 18123102)

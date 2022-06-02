@@ -1,21 +1,29 @@
 package com.swc.sampleapp.ui.activity
 
 import android.content.Intent
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.swc.common.ui.activity.BaseSplashActivity
 import com.swc.common.util.LOG
 import com.swc.sampleapp.R
+import com.swc.sampleapp.databinding.ActivitySplashBinding
+import com.swc.sampleapp.databinding.FragmentMainHome3Binding
 
 
 /**
 Created by sangwn.choi on2020-07-03
 
  **/
-class SplashActivity : BaseSplashActivity() {
+class SplashActivity : BaseSplashActivity<ActivitySplashBinding>() {
     override val myClass: Class<*>?
         get() = MainActivity::class.java
     override val mLayoutId: Int
         get() = R.layout.activity_splash
 
+    override val bindingInflater: (LayoutInflater) -> ActivitySplashBinding = {
+            inflater -> ActivitySplashBinding.inflate(inflater)
+    }
+    
     override fun setLayout() {
 
 

@@ -2,6 +2,7 @@ package com.swc.sampleapp.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.GravityCompat
@@ -14,6 +15,8 @@ import com.swc.common.util.LOG
 import com.swc.common.util.PopupDialogUtil
 import com.swc.sampleapp.BuildConfig
 import com.swc.sampleapp.R
+import com.swc.sampleapp.databinding.ActivityMainBinding
+import com.swc.sampleapp.databinding.ActivitySplashBinding
 import com.swc.sampleapp.extension.navigateSafely
 import com.swc.sampleapp.ui.adapter.DrawerEntryAdapter
 import com.swc.sampleapp.ui.adapter.DrawerItem
@@ -25,7 +28,7 @@ import kotlinx.android.synthetic.main.nav_footer.*
 Created by sangwn.choi on2020-06-29
 
  **/
-class MainActivity : BaseActivity(), View.OnClickListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     override val mLayoutId = R.layout.activity_main
 
     override fun setToolbar() {
@@ -34,6 +37,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         findViewById<ImageView>(R.id.ivMenu)?.setOnClickListener {
             dlMenu?.openDrawer(GravityCompat.START)
         }
+    }
+
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = {
+            inflater -> ActivityMainBinding.inflate(inflater)
     }
 
     override fun setLayout() {

@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
+import androidx.viewbinding.ViewBinding
 import androidx.webkit.WebResourceErrorCompat
 import androidx.webkit.WebViewClientCompat
 import androidx.webkit.WebViewFeature
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_webview_base.*
 Created by sangwn.choi on2020-07-01
 
  **/
-abstract class BaseWebviewFragment : BaseFragment() {
+abstract class BaseWebviewFragment<VB: ViewBinding> : BaseFragment<VB>() {
     open var initialUrl: String? = null
 
     override val layoutId: Int
@@ -58,7 +59,7 @@ abstract class BaseWebviewFragment : BaseFragment() {
 
     }
 
-    class CustomChromeClient(private val baseWebviewFragment: BaseWebviewFragment? = null) : WebChromeClient() {
+    class CustomChromeClient<VB: ViewBinding>(private val baseWebviewFragment: BaseWebviewFragment<VB>? = null) : WebChromeClient() {
 
         override fun onJsAlert(view: WebView?, url: String?, message: String?, result: JsResult?): Boolean {
 //
@@ -77,7 +78,7 @@ abstract class BaseWebviewFragment : BaseFragment() {
         }
     }
 
-    class CustomWebViewClient(private val baseWebviewFragment: BaseWebviewFragment? = null) : WebViewClientCompat() {
+    class CustomWebViewClient<VB: ViewBinding>(private val baseWebviewFragment: BaseWebviewFragment<VB>? = null) : WebViewClientCompat() {
         //TODO: onPageFinished,onPageStarted,shouldOverrideUrlLoading override
 
         override fun onPageFinished(view: WebView?, url: String?) {

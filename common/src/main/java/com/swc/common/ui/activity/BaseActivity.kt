@@ -4,9 +4,11 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import com.swc.common.BuildConfig
 import com.swc.common.R
 import com.swc.common.ui.custom.SToolbar
@@ -23,7 +25,13 @@ import java.util.concurrent.TimeUnit
 Created by sangwn.choi on2020-06-29
 
  **/
-abstract class BaseActivity: RxAppCompatActivity() {
+abstract class BaseActivity<VB: ViewBinding>: RxAppCompatActivity() {
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater) -> VB
+
+    protected val binding: VB
+        get() = _binding as VB
+
     private var mInteractionSubject: PublishSubject<Int>? = null
     abstract val mLayoutId: Int
     private val className: String = this.javaClass.simpleName
@@ -87,6 +95,9 @@ abstract class BaseActivity: RxAppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         setStatusBarColor()
+
+        //set view binding
+        _binding = bindingInflater.invoke(layoutInflater)
 
         //set content view here
         setContentView(mLayoutId)
