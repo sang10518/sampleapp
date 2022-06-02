@@ -28,7 +28,7 @@ abstract class BaseFragment<VB: ViewBinding> : RxFragment(), View.OnClickListene
     protected val binding: VB
         get() = _binding as VB
 
-    abstract val layoutId: Int
+//    abstract val layoutId: Int
     private val className: String = this.javaClass.simpleName
 
     open var loadingView: LoadingView? = null
@@ -36,7 +36,7 @@ abstract class BaseFragment<VB: ViewBinding> : RxFragment(), View.OnClickListene
     var hasInitializedRootView = false
     private var rootView: View? = null
 
-    private fun getPersistentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, layout: Int): View? {
+    private fun getPersistentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (rootView == null) {
             // Inflate the layout for this fragment
             _binding = bindingInflater.invoke(inflater, container, false)
@@ -53,7 +53,7 @@ abstract class BaseFragment<VB: ViewBinding> : RxFragment(), View.OnClickListene
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return getPersistentView(inflater, container, savedInstanceState, layoutId)
+        return getPersistentView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,6 +122,7 @@ abstract class BaseFragment<VB: ViewBinding> : RxFragment(), View.OnClickListene
 
     override fun onDestroyView() {
         LOG.e(className, "onDestroyView")
+        _binding = null
         super.onDestroyView()
     }
 }

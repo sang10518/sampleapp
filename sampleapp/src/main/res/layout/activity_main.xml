@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <com.swc.common.ui.custom.SToolbar
-                android:id="@+id/sToolbar"
+                android:id="@+id/toolbar_id"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
@@ -31,10 +31,18 @@
                 android:background="@color/white">
             </com.swc.common.ui.custom.SToolbar>
 
+<!--            <include android:id="@+id/toolbar_id"-->
+<!--                app:contentInsetLeft="0dp"-->
+<!--                app:contentInsetStart="0dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/common_toolbar_height"-->
+<!--                android:background="@color/white"-->
+<!--                layout="@layout/drawer_toolbar" />-->
+
             <View
                 android:id="@+id/vBorder"
                 android:layout_width="match_parent"
-                app:layout_constraintBottom_toBottomOf="@id/sToolbar"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar_id"
                 android:layout_height="1dp"
                 android:background="@color/gray01"
                 />
@@ -120,6 +128,7 @@
                 tools:itemCount="6" />
 
             <include
+                android:id="@+id/navFooter"
                 layout="@layout/nav_footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

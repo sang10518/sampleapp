@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.swc.common.ui.activity.BaseActivity
+import com.swc.common.ui.custom.SToolbar
 import com.swc.common.ui.fragment.PopupDialogFragment
 import com.swc.common.util.LOG
 import com.swc.common.util.PopupDialogUtil
@@ -20,8 +21,10 @@ import com.swc.sampleapp.databinding.ActivitySplashBinding
 import com.swc.sampleapp.extension.navigateSafely
 import com.swc.sampleapp.ui.adapter.DrawerEntryAdapter
 import com.swc.sampleapp.ui.adapter.DrawerItem
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.nav_footer.*
+import kotlinx.android.synthetic.main.activity_main.view.*
+
+//import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.android.synthetic.main.nav_footer.*
 
 
 /**
@@ -29,13 +32,15 @@ Created by sangwn.choi on2020-06-29
 
  **/
 class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
-    override val mLayoutId = R.layout.activity_main
+//    override val mLayoutId = R.layout.activity_main
 
     override fun setToolbar() {
         super.setToolbar()
 
+        binding.toolbarId.setSToolbarTitle("DEF")
+
         findViewById<ImageView>(R.id.ivMenu)?.setOnClickListener {
-            dlMenu?.openDrawer(GravityCompat.START)
+            binding.dlMenu.openDrawer(GravityCompat.START)
         }
     }
 
@@ -46,7 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     override fun setLayout() {
 
         //drawer init
-        rvNavMenu?.initialize(DrawerEntryAdapter(clickListener = this@MainActivity).apply {
+        binding.rvNavMenu.initialize(DrawerEntryAdapter(clickListener = this@MainActivity).apply {
             add(DrawerItem(getString(R.string.menu_home), R.drawable.ic_home_orange))
             add(DrawerItem(getString(R.string.menu_f), R.drawable.ic_announcement_orange))
             add(DrawerItem(getString(R.string.menu_e), R.drawable.ic_pandemic_info))
@@ -56,11 +61,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
             add(DrawerItem(getString(R.string.menu_a), R.drawable.ic_faq))
         })
 
-        tvOpenSource?.setOnClickListener(this)
-        tvPrivacyPolicy?.setOnClickListener(this)
+        binding.navFooter.tvOpenSource.setOnClickListener(this)
+        binding.navFooter.tvOpenSource.setOnClickListener(this)
+        binding.navFooter.tvPrivacyPolicy.setOnClickListener(this)
 
-        tvAppVersion?.text = getString(R.string.app_version, BuildConfig.VERSION_NAME)
-        tvAppVersion?.setOnClickListener(this)
+        binding.navFooter.tvAppVersion.text = getString(R.string.app_version, BuildConfig.VERSION_NAME)
+        binding.navFooter.tvAppVersion.setOnClickListener(this)
 
         //nav graph start
         findNavController(R.id.navHostFragment).run {
@@ -72,8 +78,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     override fun onBackPressed() {
         LOG.e("Main onBackPressed")
 
-        if (dlMenu?.isDrawerOpen(GravityCompat.START) == true) {
-            dlMenu?.closeDrawer(GravityCompat.START)
+        if (binding.dlMenu.isDrawerOpen(GravityCompat.START)) {
+            binding.dlMenu.closeDrawer(GravityCompat.START)
         } else {
 
             findNavController(R.id.navHostFragment).run {
@@ -91,7 +97,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
                         .show(supportFragmentManager, null)
                 } else {
                     //이전 화면이동시 hide loading
-                    lvMain?.visibility = View.GONE
+                    binding.lvMain.visibility = View.GONE
                     super.onBackPressed()
                 }
             }
@@ -101,7 +107,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     }
 
     private fun getForegroundFragmentArgs(): Bundle? {
-        return (navHostFragment.childFragmentManager.fragments[0] ?: navHostFragment).arguments
+        val frag = supportFragmentManager.findFragmentById(R.id.navHostFragment)
+
+        frag?.run {
+            return (childFragmentManager.fragments[0] ?: this).arguments
+        }
+        return null
     }
 
     override fun onClick(v: View?) {
@@ -112,13 +123,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
                     LOG.e("swc", "clDrawer click")
 
                     //close drawer
-                    if (dlMenu?.isDrawerOpen(GravityCompat.START) == true) {
-                        dlMenu?.closeDrawer(GravityCompat.START)
+                    if (binding.dlMenu.isDrawerOpen(GravityCompat.START)) {
+                        binding.dlMenu.closeDrawer(GravityCompat.START)
                     }
 
                     //move to nav page..WIP
 
-                    rvNavMenu?.run {
+                    binding.rvNavMenu.run {
                         val pos = getChildAdapterPosition(v)
                         (adapter?.getItem(pos) as? DrawerItem)?.run {
                             LOG.e("item title $title")
@@ -126,7 +137,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
 
                             when (title) {
                                 getString(R.string.menu_home) -> {
-                                    navHostFragment.findNavController().navigateSafely(
+                                    supportFragmentManager.findFragmentById(R.id.navHostFragment)?.findNavController()?.navigateSafely(
                                         R.id.action_home,
                                         getForegroundFragmentArgs()
                                     )
@@ -170,6 +181,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    override fun getToolbar(): SToolbar? {
+        return binding.toolbarId
     }
 
 

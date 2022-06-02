@@ -14,7 +14,7 @@ import com.swc.sampleapp.ui.activity.MainActivity
 import com.trello.rxlifecycle4.android.FragmentEvent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_main_home3.*
+//import kotlinx.android.synthetic.main.fragment_main_home3.*
 
 
 /**
@@ -22,8 +22,8 @@ Created by sangwn.choi on2020-07-08
 
  **/
 class MainHomeFragment : BaseFragment<FragmentMainHome3Binding>() {
-    override val layoutId: Int
-        get() = R.layout.fragment_main_home3
+//    override val layoutId: Int
+//        get() = R.layout.fragment_main_home3
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainHome3Binding = {
             inflater, container, attachToParent -> FragmentMainHome3Binding.inflate(inflater, container, attachToParent)
@@ -39,11 +39,11 @@ class MainHomeFragment : BaseFragment<FragmentMainHome3Binding>() {
         arguments?.run {
             LOG.e("bundle arg $this")
         } ?: run {
-            loadFresh()
+//            loadFresh()
         }
 
         context?.let {
-            rvMainMenu?.addItemDecoration(MiddleDividerItemDecoration(it, MiddleDividerItemDecoration.ALL))
+//            rvMainMenu?.addItemDecoration(MiddleDividerItemDecoration(it, MiddleDividerItemDecoration.ALL))
             binding.rvMainMenu.addItemDecoration(MiddleDividerItemDecoration(it, MiddleDividerItemDecoration.ALL))
         }
 
@@ -78,7 +78,10 @@ class MainHomeFragment : BaseFragment<FragmentMainHome3Binding>() {
     }
 
     override fun setToolbar() {
+        LOG.e("mainhomefragment setToolBar")
+
         getBaseActivity<ActivityMainBinding>()?.getToolbar()?.run {
+            LOG.e("mainhomefrag toolbar nonnull")
             setSToolbarTitle(getString(R.string.app_name))
         }
     }
