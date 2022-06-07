@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.swc.common.ui.activity.BaseActivity
 import com.swc.common.ui.custom.LoadingView
 import com.swc.common.util.LOG
@@ -13,10 +14,21 @@ import com.trello.rxlifecycle4.components.support.RxFragment
 /**
 Created by sangwn.choi on2020-06-29
 
- **/
-abstract class BaseFragment : RxFragment(), View.OnClickListener {
+ * Base application `Fragment` class with overridden [onCreateView] that inflates the view
+ * based on the [VB] type argument and set the [binding] property.
+ *
+ * @param VB The type of the View Binding class.
 
-    abstract val layoutId: Int
+ **/
+abstract class BaseFragment<VB: ViewBinding> : RxFragment(), View.OnClickListener {
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    protected val binding: VB
+        get() = _binding as VB
+
+//    abstract val layoutId: Int
     private val className: String = this.javaClass.simpleName
 
     open var loadingView: LoadingView? = null
@@ -24,10 +36,11 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
     var hasInitializedRootView = false
     private var rootView: View? = null
 
-    private fun getPersistentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?, layout: Int): View? {
+    private fun getPersistentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (rootView == null) {
             // Inflate the layout for this fragment
-            rootView = inflater?.inflate(layout, container, false)
+            _binding = bindingInflater.invoke(inflater, container, false)
+            rootView = (_binding as VB).root
         } else {
             // Do not inflate the layout again.
             // The returned View of onCreateView will be added into the fragment.
@@ -40,7 +53,7 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return getPersistentView(inflater, container, savedInstanceState, layoutId)
+        return getPersistentView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,8 +79,8 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
 
     abstract fun setToolbar()
 
-    fun getBaseActivity(): BaseActivity? {
-        return (activity as? BaseActivity)
+    fun <T: ViewBinding> getBaseActivity(): BaseActivity<T>? {
+        return (activity as? BaseActivity<T>)
     }
 
     open fun loadData() {
@@ -109,6 +122,7 @@ abstract class BaseFragment : RxFragment(), View.OnClickListener {
 
     override fun onDestroyView() {
         LOG.e(className, "onDestroyView")
+        _binding = null
         super.onDestroyView()
     }
 }

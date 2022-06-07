@@ -7,6 +7,10 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 29
@@ -129,6 +133,7 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+<<<<<<< feature/kotlin_coroutine
 
     //Kotlin Coroutines
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
@@ -139,6 +144,10 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha01'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
 
+=======
+    api 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'androidx.databinding:viewbinding:7.0.4'
+>>>>>>> develop
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

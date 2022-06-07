@@ -1,16 +1,12 @@
 package com.swc.common.ui.activity
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
+import androidx.viewbinding.ViewBinding
 import com.swc.common.BuildConfig
 import com.swc.common.R
 import com.swc.common.ui.fragment.PopupDialogFragment
@@ -30,7 +26,7 @@ import java.util.concurrent.TimeUnit
 Created by sangwn.choi on2020-07-03
 
  **/
-abstract class BaseSplashActivity : BaseActivity() {
+abstract class BaseSplashActivity<VB: ViewBinding> : BaseActivity<VB>() {
     abstract val myClass: Class<*>?
     private var mIsBound = false
 
@@ -40,13 +36,13 @@ abstract class BaseSplashActivity : BaseActivity() {
         Single.just(0).delay(1000, TimeUnit.MILLISECONDS)
             .compose(bindUntilEvent(ActivityEvent.DESTROY))
             .subscribe({
-                checkPrerequisites()
+                checkPrerequisites<VB>()
             }, {
 
             })
     }
 
-    private fun checkPrerequisites() {
+    private fun <VB> checkPrerequisites() {
         PrerequisiteCheckState.NetworkCheckState.proceed(this@BaseSplashActivity)
     }
 
@@ -55,7 +51,7 @@ abstract class BaseSplashActivity : BaseActivity() {
         object SecurityCheckState : PrerequisiteCheckState()
         object FinalCheckState : PrerequisiteCheckState()
 
-        fun proceed(activity: BaseSplashActivity) {
+        fun <VB : ViewBinding> proceed(activity: BaseSplashActivity<VB>) {
             LOG.e("proceed ${this.javaClass.simpleName}")
             when (this) {
                 is NetworkCheckState -> {
