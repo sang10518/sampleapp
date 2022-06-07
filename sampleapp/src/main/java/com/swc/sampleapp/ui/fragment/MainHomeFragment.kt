@@ -2,6 +2,7 @@ package com.swc.sampleapp.ui.fragment
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import android.view.ViewGroup
 import com.swc.common.ui.fragment.BaseFragment
 import com.swc.common.util.*
@@ -14,6 +15,10 @@ import com.swc.sampleapp.ui.activity.MainActivity
 import com.trello.rxlifecycle4.android.FragmentEvent
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_main_home3.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 //import kotlinx.android.synthetic.main.fragment_main_home3.*
 
 
@@ -57,22 +62,35 @@ class MainHomeFragment : BaseFragment<FragmentMainHome3Binding>() {
         //TODO: load API call
 
         showLoading()
-        UserApiClient.getClient().getCk()
-            .compose(bindUntilEvent(FragmentEvent.DESTROY))
-            .observeOn(Schedulers.io())
-            .doOnNext {
-                LOG.e("result : ${it.result}")
+
+        lifecycleScope.launchWhenStarted {
+            try {
+                var res = UserApiClient.getClient().getCk()
+                LOG.e("result : ${res.result}")
+                LOG.e("getCk on success action")
+            } catch (exception: Exception) {
+                LOG.e("getCk on err action: $exception")
             }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(ApiClient.UserSubscriber({
-                LOG.e("getCk on success action $it")
+            withContext(Dispatchers.Main) {
                 hideLoading()
-            }, {
-                LOG.e("getCk on err action: $it")
-                hideLoading()
-            }, {
-                LOG.e("getCk on complete action")
-            }))
+            }
+        }
+//        UserApiClient.getClient().getCk()
+//            .compose(bindUntilEvent(FragmentEvent.DESTROY))
+//            .observeOn(Schedulers.io())
+//            .doOnNext {
+//                LOG.e("result : ${it.result}")
+//            }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(ApiClient.UserSubscriber({
+//                LOG.e("getCk on success action $it")
+//                hideLoading()
+//            }, {
+//                LOG.e("getCk on err action: $it")
+//                hideLoading()
+//            }, {
+//                LOG.e("getCk on complete action")
+//            }))
 
 
     }
