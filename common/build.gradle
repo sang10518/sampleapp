@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
 
@@ -127,6 +129,16 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    //Kotlin Coroutines
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
+
+    //Jetpack
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha01'
+    api 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha01'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
