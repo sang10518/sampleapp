@@ -3,6 +3,7 @@ package com.swc.common.ui.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
+import androidx.viewbinding.ViewBinding
 import kotlinx.android.extensions.LayoutContainer
 
 /**
@@ -111,6 +112,7 @@ abstract class BaseAdapter<T>(
  */
 abstract class BaseViewHolder(override val containerView: View) :
     RecyclerView.ViewHolder(containerView), LayoutContainer {
+    abstract val binding: ViewBinding
     //perform binding.
     abstract fun bindVH(position: Int)
 }

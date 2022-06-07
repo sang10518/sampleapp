@@ -21,8 +21,11 @@ Created by sangwn.choi on2020-07-13
 interface UserApiClient {
 
 
+//    @GET("ck")
+//    fun getCk(): Flowable<BResponse<SampleResp>>
+
     @GET("ck")
-    fun getCk(): Flowable<BResponse<SampleResp>>
+    suspend fun getCk(): BResponse<SampleResp>
 
     companion object {
         private var retrofit: Retrofit? = null
@@ -34,7 +37,7 @@ interface UserApiClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(BASE_URL)
                     .client(ApiClient.client)
-                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+//                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                     .build()
             }
             return retrofit!!.create(UserApiClient::class.java)

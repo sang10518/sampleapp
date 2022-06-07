@@ -3,18 +3,27 @@ package com.swc.common.ui.fragment
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.swc.common.R
-import kotlinx.android.synthetic.main.fragment_popup_dialog.*
+import com.swc.common.databinding.FragmentPopupDialogBinding
+import com.swc.common.databinding.FragmentScrollingPopupDialogBinding
+
+//import kotlinx.android.synthetic.main.fragment_popup_dialog.*
 
 
 /**
 Created by sangwn.choi on2020-06-29
 
  **/
-open class PopupDialogFragment : BaseDialogFragment() {
-    override val layoutId: Int =
-        R.layout.fragment_popup_dialog
+open class PopupDialogFragment : BaseDialogFragment<FragmentPopupDialogBinding>() {
+//    override val layoutId: Int =
+//        R.layout.fragment_popup_dialog
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPopupDialogBinding = {
+            inflater, container, attachToParent -> FragmentPopupDialogBinding.inflate(inflater, container, attachToParent)
+    }
 
     private var mTitle: CharSequence? = null
     internal var mImage: Any? = null
@@ -79,10 +88,10 @@ open class PopupDialogFragment : BaseDialogFragment() {
 
     private fun setTitle(title: CharSequence?) {
         title?.run {
-            tvPopupTitle?.text = this
+            binding.tvPopupTitle.text = this
         } ?: run {
-            tvPopupTitle?.visibility = View.GONE
-            vBorder?.visibility = View.GONE
+            binding.tvPopupTitle.visibility = View.GONE
+            binding.vBorder.visibility = View.GONE
         }
     }
 
@@ -92,17 +101,17 @@ open class PopupDialogFragment : BaseDialogFragment() {
                 is String -> {
                     //url? or could be local path..
                     //필요할 경우 Glide 추가
-                    ivPopupIcon?.setImageURI(Uri.parse(this))
+                    binding.ivPopupIcon.setImageURI(Uri.parse(this))
                 }
 
                 is Int -> {
                     //res id
-                    ivPopupIcon?.setImageResource(this)
+                    binding.ivPopupIcon.setImageResource(this)
                 }
 
                 is Drawable -> {
                     //drawable
-                    ivPopupIcon?.setImageDrawable(this)
+                    binding.ivPopupIcon.setImageDrawable(this)
                 }
 
                 else -> {
@@ -110,46 +119,46 @@ open class PopupDialogFragment : BaseDialogFragment() {
                 }
             }
         }?: run {
-            ivPopupIcon?.visibility = View.GONE
+            binding.ivPopupIcon.visibility = View.GONE
         }
 
     }
 
     private fun setContent(content: CharSequence?) {
         content?.run {
-            tvPopupContent?.text = this
+            binding.tvPopupContent.text = this
         } ?: run {
-            tvPopupContent?.visibility = View.GONE
+            binding.tvPopupContent.visibility = View.GONE
         }
     }
 
     private fun setDesc(desc: CharSequence?) {
         desc?.run {
-            tvPopupDesc?.text = this
+            binding.tvPopupDesc.text = this
         } ?: run {
-            tvPopupDesc?.visibility = View.GONE
+            binding.tvPopupDesc.visibility = View.GONE
         }
     }
 
     private fun setOkText(okText: CharSequence?) {
         okText?.run {
-            btnOk?.text = this
+            binding.btnOk.text = this
         } ?: run {
-            btnOk?.visibility = View.GONE
+            binding.btnOk.visibility = View.GONE
         }
     }
 
     private fun setCancelText(cancelText: CharSequence?) {
         cancelText?.run {
-            btnCancel?.text = this
+            binding.btnCancel.text = this
         } ?: run {
-            btnCancel?.visibility = View.GONE
+            binding.btnCancel.visibility = View.GONE
         }
     }
 
     private fun setOkAction(action: (() -> Unit)?) {
         action?.run {
-            btnOk?.setOnClickListener {
+            binding.btnOk.setOnClickListener {
                 this.invoke()
                 dismiss()
             }
@@ -158,7 +167,7 @@ open class PopupDialogFragment : BaseDialogFragment() {
 
     private fun setCancelAction(action: (() -> Unit)?) {
         action?.run {
-            btnCancel?.setOnClickListener {
+            binding.btnCancel.setOnClickListener {
                 this.invoke()
                 dismiss()
             }

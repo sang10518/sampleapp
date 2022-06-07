@@ -3,26 +3,36 @@ package com.swc.common.ui.fragment
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.*
+import androidx.viewbinding.ViewBinding
 import androidx.webkit.WebResourceErrorCompat
 import androidx.webkit.WebViewClientCompat
 import androidx.webkit.WebViewFeature
 import com.swc.common.R
+import com.swc.common.databinding.DrawerToolbarBinding
+import com.swc.common.databinding.FragmentWebviewBaseBinding
 import com.swc.common.util.LOG
 import com.swc.common.util.PopupDialogUtil
-import kotlinx.android.synthetic.main.fragment_webview_base.*
+//import kotlinx.android.synthetic.main.fragment_webview_base.*
 
 
 /**
 Created by sangwn.choi on2020-07-01
 
  **/
-abstract class BaseWebviewFragment : BaseFragment() {
+abstract class BaseWebviewFragment : BaseFragment<FragmentWebviewBaseBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWebviewBaseBinding = {
+            inflater, container, attachToParent -> FragmentWebviewBaseBinding.inflate(inflater, container, attachToParent)
+    }
+
     open var initialUrl: String? = null
 
-    override val layoutId: Int
-        get() = R.layout.fragment_webview_base
+//    override val layoutId: Int
+//        get() = R.layout.fragment_webview_base
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +46,9 @@ abstract class BaseWebviewFragment : BaseFragment() {
 
     override fun setLayout() {
         //init webview
-        loadingView = lvWeb
+        loadingView = binding.lvWeb
 
-        wvBase?.run {
+        binding.wvBase?.run {
             webViewClient =
                 CustomWebViewClient(this@BaseWebviewFragment)
             webChromeClient =

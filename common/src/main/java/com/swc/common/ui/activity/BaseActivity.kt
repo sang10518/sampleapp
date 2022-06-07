@@ -4,9 +4,11 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import com.swc.common.BuildConfig
 import com.swc.common.R
 import com.swc.common.ui.custom.SToolbar
@@ -17,30 +19,41 @@ import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.android.synthetic.main.drawer_toolbar.view.*
 import java.util.concurrent.TimeUnit
 
 /**
 Created by sangwn.choi on2020-06-29
 
  **/
-abstract class BaseActivity: RxAppCompatActivity() {
+abstract class BaseActivity<VB: ViewBinding>: RxAppCompatActivity() {
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater) -> VB
+
+    public val binding: VB
+        get() = _binding as VB
+
     private var mInteractionSubject: PublishSubject<Int>? = null
-    abstract val mLayoutId: Int
+//    abstract val mLayoutId: Int
     private val className: String = this.javaClass.simpleName
 
     abstract fun setLayout()
 
     open fun setToolbar() {
-
-        findViewById<Toolbar>(R.id.toolbar_id)?.let {
-            it.removeAllViews()
-            it.addView(layoutInflater.inflate(R.layout.drawer_toolbar, null))
-        }
+// viewbinding 적용 시, 여기서 새로 툴바 뷰 추가해줄 필요 없음..
+//        findViewById<SToolbar>(R.id.toolbar_id)?.let {
+//            LOG.e("set toolbar")
+//            it.removeAllViews()
+//            it.addView(layoutInflater.inflate(R.layout.drawer_toolbar, null))
+//        }
     }
 
-    fun getToolbar(): SToolbar? {
-        return findViewById<SToolbar>(R.id.toolbar_id)
-    }
+
+//    fun getToolbar(): SToolbar? {
+//        LOG.e("get toolbar is null? ${findViewById<SToolbar>(R.id.toolbar_id) == null}")
+//        return findViewById<SToolbar>(R.id.toolbar_id)
+//    }
+    abstract fun getToolbar() : SToolbar?
 
     override fun onStart() {
         super.onStart()
@@ -54,6 +67,7 @@ abstract class BaseActivity: RxAppCompatActivity() {
 
     override fun onDestroy() {
         LOG.e(className, "onDestroy")
+        _binding = null
         super.onDestroy()
     }
 
@@ -88,8 +102,11 @@ abstract class BaseActivity: RxAppCompatActivity() {
 
         setStatusBarColor()
 
+        //set view binding
+        _binding = bindingInflater.invoke(layoutInflater)
+
         //set content view here
-        setContentView(mLayoutId)
+        setContentView(binding.root)
 
         //set toolbar here
         setToolbar()
